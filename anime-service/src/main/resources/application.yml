@@ -1,3 +1,7 @@
 spring:
   application:
     name: anime-service
+
+server:
+  servlet:
+    context-path: /

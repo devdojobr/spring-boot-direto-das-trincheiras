@@ -1,18 +1,15 @@
 package academy.devdojo.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
+@AllArgsConstructor
 public class Anime {
     private Long id;
     private String name;
-
-    public Anime(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
     public static List<Anime> getAnimes() {
         var ninjaKamui = new Anime(1L, "Ninja Kamui");

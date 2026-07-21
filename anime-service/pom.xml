@@ -5,17 +5,16 @@
     <parent>
         <groupId>academy.devdojo</groupId>
         <artifactId>parent-project</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>0.0.2-SNAPSHOT</version>
+        <relativePath>../parent-project/pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
 
     <artifactId>anime-service</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
     <name>Anime Service</name>
     <description>Projeto Exemplo do curso Spring Boot Direto Das Trincheiras</description>
 
     <properties>
-        <anime-api-client.version>1.0-SNAPSHOT</anime-api-client.version>
+        <anime-api-client.version>2.0-SNAPSHOT</anime-api-client.version>
     </properties>
 
     <dependencies>
@@ -53,14 +52,14 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security-test</artifactId>
             <scope>test</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-flyway</artifactId>
         </dependency>
 
         <dependency>

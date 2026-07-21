@@ -1,7 +1,7 @@
 package academy.devdojo.config;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
+import org.springframework.boot.security.autoconfigure.actuate.web.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -40,8 +40,8 @@ public class SecurityConfig {
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(WHITE_LIST).permitAll()
-            .requestMatchers("v1/animes/**").hasRole("USER")
-            .requestMatchers("v1/producers/**").hasRole("USER")
+            .requestMatchers("/v1/animes/**").hasRole("USER")
+            .requestMatchers("/v1/producers/**").hasRole("USER")
             .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
             .anyRequest().authenticated())
         .httpBasic(Customizer.withDefaults())

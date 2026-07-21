@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.*;
 
 @WebMvcTest(controllers = AnimeController.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -56,7 +57,7 @@ class AnimeControllerTest {
     @Order(1)
     void findAll_ReturnsAllAnimes_WhenArgumentIsNull() throws Exception {
         var response = fileUtils.readResourceFile("anime/get-anime-null-name-200.json");
-        BDDMockito.when(repository.findAll()).thenReturn(animesList);
+        when(repository.findAll()).thenReturn(animesList);
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL))
                 .andDo(MockMvcResultHandlers.print())
@@ -82,7 +83,7 @@ class AnimeControllerTest {
         var pageRequest = PageRequest.of(0, animesList.size());
         var pageAnime = new PageImpl<Anime>(animesList, pageRequest, 1);
 
-        BDDMockito.when(repository.findAll(BDDMockito.any(Pageable.class))).thenReturn(pageAnime);
+        when(repository.findAll(any(Pageable.class))).thenReturn(pageAnime);
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL + "/paginated"))
                 .andDo(MockMvcResultHandlers.print())
@@ -98,7 +99,7 @@ class AnimeControllerTest {
         var name = "Mashle";
         var mashle = animesList.stream().filter(anime -> anime.getName().equals(name)).findFirst().orElse(null);
 
-        BDDMockito.when(repository.findByName(name)).thenReturn(Collections.singletonList(mashle));
+        when(repository.findByName(name)).thenReturn(Collections.singletonList(mashle));
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL).param("name", name))
                 .andDo(MockMvcResultHandlers.print())
@@ -126,7 +127,7 @@ class AnimeControllerTest {
         var response = fileUtils.readResourceFile("anime/get-anime-by-id-200.json");
         var id = 1L;
         var foundAnime = animesList.stream().filter(anime -> anime.getId().equals(id)).findFirst();
-        BDDMockito.when(repository.findById(id)).thenReturn(foundAnime);
+        when(repository.findById(id)).thenReturn(foundAnime);
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
@@ -156,7 +157,7 @@ class AnimeControllerTest {
         var response = fileUtils.readResourceFile("anime/post-response-anime-201.json");
         var animeToSave = animeUtils.newAnimeToSave();
 
-        BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(animeToSave);
+        when(repository.save(ArgumentMatchers.any())).thenReturn(animeToSave);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(URL)
@@ -175,7 +176,7 @@ class AnimeControllerTest {
     void delete_RemoveAnime_WhenSuccessful() throws Exception {
         var id = animesList.getFirst().getId();
         var foundAnime = animesList.stream().filter(anime -> anime.getId().equals(id)).findFirst();
-        BDDMockito.when(repository.findById(id)).thenReturn(foundAnime);
+        when(repository.findById(id)).thenReturn(foundAnime);
 
         mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
@@ -204,7 +205,7 @@ class AnimeControllerTest {
         var request = fileUtils.readResourceFile("anime/put-request-anime-200.json");
         var id = 1L;
         var foundAnime = animesList.stream().filter(anime -> anime.getId().equals(id)).findFirst();
-        BDDMockito.when(repository.findById(id)).thenReturn(foundAnime);
+        when(repository.findById(id)).thenReturn(foundAnime);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put(URL)

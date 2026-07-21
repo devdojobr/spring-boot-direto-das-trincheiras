@@ -14,6 +14,9 @@ spring:
       enabled: true
   flyway:
     enabled: true
+  web:
+    error:
+      include-stacktrace: on_param
 logging:
   level:
     academy.devdojo: debug
@@ -21,8 +24,6 @@ server:
   port: 8080
   servlet:
     context-path: /
-  error:
-    include-stacktrace: on_param
   tomcat:
     threads:
       max: 20

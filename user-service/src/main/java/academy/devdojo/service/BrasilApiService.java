@@ -4,11 +4,11 @@ import academy.devdojo.config.BrasilApiConfigurationProperties;
 import academy.devdojo.exception.NotFoundException;
 import academy.devdojo.response.CepErrorResponse;
 import academy.devdojo.response.CepGetResponse;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import tools.jackson.databind.ObjectMapper;
 
 @Service
 @RequiredArgsConstructor

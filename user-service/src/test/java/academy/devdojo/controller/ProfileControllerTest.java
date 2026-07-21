@@ -1,5 +1,7 @@
 package academy.devdojo.controller;
 
+import static org.mockito.BDDMockito.*;
+
 import academy.devdojo.commons.FileUtils;
 import academy.devdojo.commons.ProfileUtils;
 import academy.devdojo.config.BrasilApiConfigurationProperties;
@@ -16,7 +18,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -60,7 +62,7 @@ class ProfileControllerTest {
     @DisplayName("GET v1/profiles returns a list with all profiles")
     @Order(1)
     void findAll_ReturnsAllProfiles_WhenSuccessful() throws Exception {
-        BDDMockito.when(repository.findAll()).thenReturn(profileList);
+        when(repository.findAll()).thenReturn(profileList);
         var response = fileUtils.readResourceFile("profile/get-profiles-200.json");
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL))
@@ -89,7 +91,7 @@ class ProfileControllerTest {
         var response = fileUtils.readResourceFile("profile/post-response-profile-201.json");
         var profileSaved = profileUtils.newProfileSaved();
 
-        BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(profileSaved);
+        when(repository.save(ArgumentMatchers.any())).thenReturn(profileSaved);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(URL)

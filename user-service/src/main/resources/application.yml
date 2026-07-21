@@ -20,6 +20,11 @@ spring:
       enabled: true
   flyway:
     enabled: true
+  web:
+    error:
+      include-stacktrace: on_param
+      include-binding-errors: always
+      include-message: always
 
 logging:
   level:
@@ -32,10 +37,6 @@ server:
   port: 8090
   servlet:
     context-path: /
-  error:
-    include-stacktrace: on_param
-    include-binding-errors: always
-    include-message: always
   tomcat:
     threads:
       max: 20

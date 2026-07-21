@@ -1,5 +1,7 @@
 package academy.devdojo.controller;
 
+import static org.mockito.BDDMockito.*;
+
 import academy.devdojo.commons.FileUtils;
 import academy.devdojo.commons.UserUtils;
 import academy.devdojo.config.BrasilApiConfigurationProperties;
@@ -16,7 +18,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -62,7 +64,7 @@ class UserControllerTest {
     @Order(1)
     @WithMockUser(authorities = "ADMIN")
     void findAll_ReturnsAllUsers_WhenArgumentIsNull() throws Exception {
-        BDDMockito.when(repository.findAll()).thenReturn(userList);
+        when(repository.findAll()).thenReturn(userList);
         var response = fileUtils.readResourceFile("user/get-user-null-first-name-200.json");
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL))
@@ -80,7 +82,7 @@ class UserControllerTest {
         var firstName = "Toyohisa";
         var toyohisa = userList.stream().filter(user -> user.getFirstName().equals(firstName)).findFirst().orElse(null);
 
-        BDDMockito.when(repository.findByFirstNameIgnoreCase(firstName)).thenReturn(Collections.singletonList(toyohisa));
+        when(repository.findByFirstNameIgnoreCase(firstName)).thenReturn(Collections.singletonList(toyohisa));
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL).param("firstName", firstName))
                 .andDo(MockMvcResultHandlers.print())
@@ -109,7 +111,7 @@ class UserControllerTest {
         var response = fileUtils.readResourceFile("user/get-user-by-id-200.json");
         var id = 1L;
         var foundUser = userList.stream().filter(user -> user.getId().equals(id)).findFirst();
-        BDDMockito.when(repository.findById(id)).thenReturn(foundUser);
+        when(repository.findById(id)).thenReturn(foundUser);
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
@@ -139,7 +141,7 @@ class UserControllerTest {
         var response = fileUtils.readResourceFile("user/post-response-user-201.json");
         var userSaved = userUtils.newUserSaved();
 
-        BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(userSaved);
+        when(repository.save(ArgumentMatchers.any())).thenReturn(userSaved);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(URL)
@@ -160,7 +162,7 @@ class UserControllerTest {
         var id = userList.getFirst().getId();
 
         var foundUser = userList.stream().filter(user -> user.getId().equals(id)).findFirst();
-        BDDMockito.when(repository.findById(id)).thenReturn(foundUser);
+        when(repository.findById(id)).thenReturn(foundUser);
 
         mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
@@ -189,7 +191,7 @@ class UserControllerTest {
         var request = fileUtils.readResourceFile("user/put-request-user-200.json");
         var id = 1L;
         var foundUser = userList.stream().filter(user -> user.getId().equals(id)).findFirst();
-        BDDMockito.when(repository.findById(id)).thenReturn(foundUser);
+        when(repository.findById(id)).thenReturn(foundUser);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put(URL)

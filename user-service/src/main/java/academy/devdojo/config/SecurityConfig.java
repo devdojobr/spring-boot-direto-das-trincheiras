@@ -25,8 +25,8 @@ public class SecurityConfig {
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(WHITE_LIST).permitAll()
-            .requestMatchers(HttpMethod.POST, "v1/users").permitAll()
-            .requestMatchers(HttpMethod.DELETE, "v1/users/*").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.POST, "/v1/users").permitAll()
+            .requestMatchers(HttpMethod.DELETE, "/v1/users/*").hasAuthority("ADMIN")
             .anyRequest().authenticated())
         .httpBasic(Customizer.withDefaults())
         .build();

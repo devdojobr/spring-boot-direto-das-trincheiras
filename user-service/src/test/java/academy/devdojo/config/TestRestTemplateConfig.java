@@ -1,7 +1,7 @@
 package academy.devdojo.config;
 
+import org.springframework.boot.resttestclient.TestRestTemplate;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
